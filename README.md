@@ -1,0 +1,1 @@
+# bankcopilot-semantickernel-aiplugin
