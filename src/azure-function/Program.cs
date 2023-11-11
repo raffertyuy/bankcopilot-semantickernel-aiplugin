@@ -40,8 +40,8 @@ var host = new HostBuilder()
         
         // Sample bank data (no actual database for now)
         var bankdata = BankDataContext.Instance;
-        bankdata.Accounts.Add(new Account { AccountNumber = "123456789", AccountName = "Savings", AccountBalance = 1000000 });
-        bankdata.Accounts.Add(new Account { AccountNumber = "987654321", AccountName = "Checking", AccountBalance = 10000 });
+        bankdata.Accounts.Add(new Account("123456789", "Savings", 1000000));
+        bankdata.Accounts.Add(new Account("987654321", "Checking", 10000));
     })
     .Build();
 

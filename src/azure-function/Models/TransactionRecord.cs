@@ -4,11 +4,11 @@ public class TransactionRecord
 {
   public Account SourceAccount { get; set; }
   public Account DestinationAccount { get; set; }
-  public double Amount { get; set; }
+  public decimal Amount { get; set; }
   public DateTime Date { get; set; }
   public string Remarks { get; set;}
 
-  public TransactionRecord(Account sourceAccount, Account destinationAccount, double amount, string? remarks)
+  public TransactionRecord(Account sourceAccount, Account destinationAccount, decimal amount, string? remarks)
   {
     SourceAccount = sourceAccount ?? throw new ArgumentNullException(nameof(sourceAccount));
     DestinationAccount = destinationAccount ?? throw new ArgumentNullException(nameof(destinationAccount));

@@ -1,11 +1,14 @@
 using System.Globalization;
+using System.IO;
 using System.Net;
+using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Models;
+using Newtonsoft.Json;
 
 namespace NativeFunctions.BankSkill;
 
@@ -18,112 +21,101 @@ public class TransferFundsBetweenAccounts
         _logger = loggerFactory.CreateLogger<TransferFundsBetweenAccounts>();
     }
 
-    [OpenApiOperation(operationId: "TransferFundsBetweenAccounts", tags: new[] { "BankSkill" }, Description = "Transfer funds from one bank account to another")]
-    [OpenApiParameter(name: "sourceAccountNumber", Description = "The source account number to debit funds", Required = true, In = ParameterLocation.Query)]
-    [OpenApiParameter(name: "destinationAccountNumber", Description = "The destination account number to credit funds", Required = true, In = ParameterLocation.Query)]
-    [OpenApiParameter(name: "amount", Description = "The amount to transfer", Required = true, In = ParameterLocation.Query)]
-    [OpenApiParameter(name: "remarks", Description = "User remarks for the fund transfer", Required = false, In = ParameterLocation.Query)]
+    [OpenApiOperation(operationId: "TransferFundsBetweenAccounts", tags: new[] { "BankSkill" }, Description = "Transfer funds from one bank account to another.")]
+    [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(TransactionRequest), Required = true, Description = "The fund transfer request parameters. Please pass a valid transaction request body with the format { \"sourceAccountNumber\": \"\", \"destinationAccountNumber\": \"\", \"amount\": 1000, \"remarks\": \"\" }")]
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(string), Description = "Returns the fund transfer success or failure message.")]
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.BadRequest, contentType: "application/json", bodyType: typeof(string), Description = "Returns the error of the input.")]
     [Function("TransferFundsBetweenAccounts")]
-    public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req)
+    public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req)
     {
         if (req is null)
         {
             throw new ArgumentNullException(nameof(req));
         }
 
-        var sourceAccountNumber = req.Query["sourceAccountNumber"];
-        if (string.IsNullOrEmpty(sourceAccountNumber))
+        using (var reader = new StreamReader(req.Body))
         {
-            HttpResponseData response = req.CreateResponse(HttpStatusCode.BadRequest);
-            response.Headers.Add("Content-Type", "application/json");
-            response.WriteString("Please pass an sourceAccountNumber on the query string");
+            var requestBody = await reader.ReadToEndAsync().ConfigureAwait(false);
+            _logger.LogInformation($"TransferFundsBetweenAccounts function started. Request body: {requestBody}");
 
-            return response;
-        }
+            var request = JsonConvert.DeserializeObject<TransactionRequest>(requestBody);
 
-        var destinationAccountNumber = req.Query["destinationAccountNumber"];
-        if (string.IsNullOrEmpty(destinationAccountNumber))
-        {
-            HttpResponseData response = req.CreateResponse(HttpStatusCode.BadRequest);
-            response.Headers.Add("Content-Type", "application/json");
-            response.WriteString("Please pass an destinationAccountNumber on the query string");
+            if (request is null)
+            {
+                HttpResponseData response = req.CreateResponse(HttpStatusCode.BadRequest);
+                response.Headers.Add("Content-Type", "application/json");
+                response.WriteString("Please pass a valid transaction request body with the format { \"sourceAccountNumber\": \"\", \"destinationAccountNumber\": \"\", \"amount\": 1000, \"remarks\": \"\" }");
 
-            return response;
-        }
+                return response;
+            }
 
-        var isAmountValid = double.TryParse(req.Query["amount"], out var amount);
-        isAmountValid = isAmountValid && amount > 0;
-        if (!isAmountValid)
-        {
-            HttpResponseData response = req.CreateResponse(HttpStatusCode.BadRequest);
-            response.Headers.Add("Content-Type", "application/json");
-            response.WriteString("Please pass a valid amount that is > 0 on the query string");
+            var success = LocalRun(request, out var responseMessage);
+            if (success)
+            {
+                HttpResponseData response = req.CreateResponse(HttpStatusCode.OK);
+                response.Headers.Add("Content-Type", "application/json");
+                response.WriteString(responseMessage);
 
-            return response;
-        }
+                _logger.LogInformation($"TransferFundsBetweenAccounts function processed a request. {responseMessage}");
 
-        var remarks = req.Query["remarks"];
+                return response;
+            }
+            else
+            {
+                HttpResponseData response = req.CreateResponse(HttpStatusCode.BadRequest);
+                response.Headers.Add("Content-Type", "application/json");
+                response.WriteString(responseMessage);
 
-        var success = LocalRun(sourceAccountNumber, destinationAccountNumber, amount, remarks, out var responseMessage);
-        if (success)
-        {
-            HttpResponseData response = req.CreateResponse(HttpStatusCode.OK);
-            response.Headers.Add("Content-Type", "application/json");
-            response.WriteString(responseMessage);
+                _logger.LogError($"TransferFundsBetweenAccounts function processed a request. {responseMessage}");
 
-            _logger.LogInformation($"TransferFundsBetweenAccounts function processed a request. {responseMessage}");
-
-            return response;
-        }
-        else
-        {
-            HttpResponseData response = req.CreateResponse(HttpStatusCode.BadRequest);
-            response.Headers.Add("Content-Type", "application/json");
-            response.WriteString(responseMessage);
-
-            _logger.LogError($"TransferFundsBetweenAccounts function processed a request. {responseMessage}");
-
-            return response;
+                return response;
+            }
         }
     }
 
-    public bool LocalRun(string sourceAccountNumber, string destinationAccountNumber, double amount, string? remarks, out string responseMessage)
+    public bool LocalRun(TransactionRequest request, out string responseMessage)
     {
+        if (request is null)
+        {
+            responseMessage = "Invalid transaction request body.";
+            return false;
+        }
+
         var data = BankDataContext.Instance;
-        var sourceAccount = data.Accounts.FirstOrDefault(a => a.AccountNumber == sourceAccountNumber);
-        var destinationAccount = data.Accounts.FirstOrDefault(a => a.AccountNumber == destinationAccountNumber);
+        var sourceAccount = data.Accounts.FirstOrDefault(a => a.AccountNumber == request.SourceAccountNumber);
+        var destinationAccount = data.Accounts.FirstOrDefault(a => a.AccountNumber == request.DestinationAccountNumber);
 
         if (sourceAccount is null)
         {
-            responseMessage = $"Source account {sourceAccountNumber} does not exist.";
+            responseMessage = $"Source account {request.SourceAccountNumber} does not exist.";
             return false;
         }
 
         if (destinationAccount is null)
         {
-            responseMessage = $"Destination account {destinationAccountNumber} does not exist.";
+            responseMessage = $"Destination account {request.DestinationAccountNumber} does not exist.";
             return false;
         }
 
-        if (sourceAccount.AccountBalance < amount)
+        if (sourceAccount.AccountBalance < request.Amount)
         {
-            responseMessage = $"Insufficient funds in source account {sourceAccountNumber}.";
+            responseMessage = $"Insufficient funds in source account {request.SourceAccountNumber}.";
             return false;
         }
 
-        if (amount <= 0)
+        if (request.Amount <= 0)
         {
-            responseMessage = $"Invalid amount {amount}. Should be more than 0.";
+            responseMessage = $"Invalid amount {request.Amount}. Should be more than 0.";
             return false;
         }
 
-        sourceAccount.AccountBalance -= amount;
-        destinationAccount.AccountBalance += amount;
-        data.TransactionHistory.Add(new TransactionRecord(sourceAccount, destinationAccount, amount, remarks));
+        _logger.LogInformation($"TransferFundsBetweenAccounts validation completed. Executing funds transfer from {request.SourceAccountNumber} to {request.DestinationAccountNumber} with the amount of {request.Amount}.");
 
-        responseMessage = $"Successfully transferred ${amount} from {sourceAccount.AccountNumber} to {destinationAccount.AccountNumber}. The new balance of {sourceAccount.AccountNumber} is ${sourceAccount.AccountBalance}.";
+        sourceAccount.AccountBalance -= request.Amount;
+        destinationAccount.AccountBalance += request.Amount;
+        data.TransactionHistory.Add(new TransactionRecord(sourceAccount, destinationAccount, request.Amount, request.Remarks));
+
+        responseMessage = $"Successfully transferred ${request.Amount} from {sourceAccount.AccountNumber} to {destinationAccount.AccountNumber}. The new balance of {sourceAccount.AccountNumber} is ${sourceAccount.AccountBalance}.";
         return true;
     }
 }

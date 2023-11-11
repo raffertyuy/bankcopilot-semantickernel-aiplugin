@@ -63,7 +63,7 @@ public class GetAccountBalance
         }
     }
 
-    public static double? LocalRun(string accountNumber)
+    public static decimal? LocalRun(string accountNumber)
     {
         var data = BankDataContext.Instance;
         var account = data.Accounts.FirstOrDefault(x => x.AccountNumber == accountNumber);
