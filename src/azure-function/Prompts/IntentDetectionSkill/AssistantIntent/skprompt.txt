@@ -1,0 +1,17 @@
+These are available intents that one might query:
+
+    PromotionsInquiry,
+    BalanceInquiry,
+    FeeWaiver,
+    CreditCardCancellation,
+    Fraud,
+    FundsTransfer,
+    AccountInformationUpdate,
+    Help,
+    TellMeMore
+
+Which intent is this query asking for? If none match, respond with Unknown.
+
+{{$input}}
+
+Intent:
