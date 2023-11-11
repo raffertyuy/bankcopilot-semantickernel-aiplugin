@@ -1,36 +1,24 @@
 using System.Collections.Generic;
 
-namespace Models;
-
-public class BankDataContext
+namespace Models
 {
-    private static BankDataContext instance = null;
-    private static readonly object padlock = new object();
-
-    private List<Account> accounts;
-
-    BankDataContext()
+    public class BankDataContext
     {
-        accounts = new List<Account>();
-    }
+        private static BankDataContext? instance;
+        private static readonly object padlock = new();
 
-    public static BankDataContext Instance
-    {
-        get
+        public ICollection<Account> Accounts { get; } = new List<Account>();
+        public ICollection<TransactionRecord> TransactionHistory { get; } = new List<TransactionRecord>();
+
+        public static BankDataContext Instance
         {
-            lock (padlock)
+            get
             {
-                if (instance == null)
+                lock (padlock)
                 {
-                    instance = new BankDataContext();
+                    return instance ??= new BankDataContext();
                 }
-                return instance;
             }
         }
-    }
-
-    public List<Account> Accounts
-    {
-        get { return accounts; }
     }
 }

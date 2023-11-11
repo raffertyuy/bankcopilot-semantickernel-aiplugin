@@ -37,12 +37,12 @@ var host = new HostBuilder()
                 return kernel;
             })
             .AddScoped<IAIPluginRunner, AIPluginRunner>();
+        
+        // Sample bank data (no actual database for now)
+        var bankdata = BankDataContext.Instance;
+        bankdata.Accounts.Add(new Account { AccountNumber = "123456789", AccountName = "Savings", AccountBalance = 1000000 });
+        bankdata.Accounts.Add(new Account { AccountNumber = "987654321", AccountName = "Checking", AccountBalance = 10000 });
     })
     .Build();
 
 host.Run();
-
-// Sample bank data (no actual database for now)
-var bankdata = BankDataContext.Instance;
-bankdata.Accounts.Add(new Account { AccountNumber = "123456789", AccountName = "Savings", AccountBalance = 1000000 });
-bankdata.Accounts.Add(new Account { AccountNumber = "987654321", AccountName = "Checking", AccountBalance = 10000 });
