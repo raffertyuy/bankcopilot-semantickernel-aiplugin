@@ -1,95 +1,41 @@
 # About
 This is a Bank ChatGPT AI Plugin POC to observe how ChatGPT will perform with additional banking transaction skills.
 
-This repo uses [Semantic Kernel](https://github.com/microsoft/semantic-kernel) and C#. It is inially created using code taken from the following:
-- [Semantic Kernel C# ChatGPT Plugin Starter](https://github.com/microsoft/semantic-kernel-starters/tree/main/sk-csharp-chatgpt-plugin)
+This repo uses [Semantic Kernel](https://github.com/microsoft/semantic-kernel) with **two** ChatGPT Plugins. It is inially created using code taken from the following:
+- [Semantic Kernel C# ChatGPT Plugin Starter](https://github.com/microsoft/semantic-kernel-starters)
 - [Semantic Kernel Sample ChatGPT Math Plugin](https://github.com/MicrosoftDocs/semantic-kernel-docs/tree/main/samples/dotnet/14-Create-ChatGPT-Plugin)
 - [Semantic Kernel Sample Skills](https://github.com/microsoft/semantic-kernel/tree/main/samples/skills)
 
-With the plan to have the following native functions:
+## Plugins
+### [Bank Transactions](./src/bank-transactions-azfunction) Plugin
+Uses [native functions](https://learn.microsoft.com/en-us/semantic-kernel/ai-orchestration/plugins/native-functions/using-the-skfunction-decorator?tabs=Csharp) to perform banking transactions.
 - [x] Balance Inquiry
 - [x] Transfer funds between accounts
 - [ ] Update account billing address
-- [ ] Bank promotions inquiry
-- [ ] Send promotion interests to CRM
 
-## How to Run
-1. See instructions below
-2. Run [Semantic Kernel Chat Copilot](https://github.com/microsoft/chat-copilot) or any other app that supports [ChatGPT Plugins](https://openai.com/blog/chatgpt-plugins)
-3. Add the plugin to the app. For local debugging, the address is `http://localhost:7071` or `http://localhost:7071/.well-known/ai-plugin.json`
+To run: [start-banktransactions.bat](./start-banktransactions.bat)
+Local URL: `http://localhost:7071` or `http://localhost:7071/.well-known/ai-plugin.json`
 
-## Metaprompt
+### [Bank Information](./src/bank-information-azfunction) Plugin
+Uses [semantic functions](https://learn.microsoft.com/en-us/semantic-kernel/ai-orchestration/plugins/semantic-functions/inline-semantic-functions?tabs=Csharp) to provide information about banking products. This plugin is an _experiment_ to compare its performance vs using [RAG](https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overview) directly on the main prompt (without plugins).
+- [ ] Inquiry on bank account types
+- [ ] Inquiry on credit card promotions
+- [ ] Send interests to CRM **_\*additional feature\*_**
+
+To run: [start-bankinginformation.bat](./start-bankinginformation.bat)
+Local URL: `http://localhost:7072` or `http://localhost:7072/.well-known/ai-plugin.json`
+
+## How to Test the Plugins
+### Semantic Kernal Chat Copilot
+1. Run [Semantic Kernel Chat Copilot](https://github.com/microsoft/chat-copilot)
+2. Run the two plugins above, or simply run [start.bat](./start.bat)
+3. Add the plugins to the Chat Copilot app (see local URLs above)
+
+### SK Chat Copilot Persona Metaprompt
 ```
-You are a banking assistant for the online banking application of Raz Bank, who helps authenticated customers banking queries and transactions.
+You are a banking assistant for Raz Bank. You help customers with banking queries and banking transactions.
 You are to answer queries related to banking only. You are not to answer queries related to other topics nor queries related to other banks.
-
-For promotion or account opening related queries, use the following data:
-- Salary Account: Earn up to 4% p.a. interest when you credit your monthly salary to this account. More information in https://razbank.com.sg/salary-account.
-- Time Deposit: Earn a guaranteed 2% p.a. interest when you deposit a minimum of $10,000 for 12 months. More information in https://razbank.com.sg/time-deposit.
-- Credit Card: Earn up to 8% cashback when you spend with our credit cards. More information in https://razbank.com.sg/credit-card.
-- Personal Loan: Enjoy a low interest rate of 3.5% p.a. when you take up a personal loan with us. More information in https://razbank.com.sg/personal-loan.
 
 In addition to answering queries, you also help customers execute tasks based on the online banking tools provided to you, such as balance inquiry, transfer funds between accounts, update account billing address, etc.
 Before using tools that does financial transactions (e.g. funds transfer), you must re-confirm with the user before proceeding.
-```
-
----
-
-# Semantic Kernel ChatGPT plugin starter
-
-This project provides starter code to create a ChatGPT plugin. It includes the following components:
-
-- An endpoint that serves up an ai-plugin.json file for ChatGPT to discover the plugin
-- A generator that automatically converts prompts into semantic function endpoints
-- The ability to add additional native functions as endpoints to the plugin
-
-To learn more about using this starter, see the Semantic Kernel documentation that describes how to [create a ChatGPT plugin](https://learn.microsoft.com/en-us/semantic-kernel/ai-orchestration/chatgpt-plugins).
-
-## Prerequisites
-
-- [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0) is required to run this starter.
-- [Azure Functions Core Tools](https://www.npmjs.com/package/azure-functions-core-tools) is required to run this starter.
-- Install the recommended extensions
-  - [C#](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp)
-  - [Semantic Kernel Tools](https://marketplace.visualstudio.com/items?itemName=ms-semantic-kernel.semantic-kernel)
-
-## Configuring the starter
-
-To configure the starter, you need to provide the following information:
-
-- Define the properties of the plugin in the [appsettings.json](./azure-function/appsettings.json) file.
-- Enter the API key for your AI endpoint in the [local.settings.json](./azure-function/local.settings.json) file.
-
-For Debugging the console application alone, we suggest using .NET [Secret Manager](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets) to avoid the risk of leaking secrets into the repository, branches and pull requests.
-
-### Using appsettings.json
-
-Configure an OpenAI endpoint
-
-1. Copy [settings.json.openai-example](./config/appsettings.json.openai-example) to `./appsettings.json`
-1. Edit the `kernel` object to add your OpenAI endpoint configuration
-1. Edit the `aiPlugin` object to define the properties that get exposed in the ai-plugin.json file
-
-Configure an Azure OpenAI endpoint
-
-1. Copy [settings.json.azure-example](./config/appsettings.json.azure-example) to `./appsettings.json`
-1. Edit the `kernel` object to add your Azure OpenAI endpoint configuration
-1. Edit the `aiPlugin` object to define the properties that get exposed in the ai-plugin.json file
-
-### Using local.settings.json
-
-1. Copy [local.settings.json.example](./azure-function/local.settings.json.example) to `./azure-function/local.settings.json`
-1. Edit the `Values` object to add your OpenAI endpoint configuration in the `apiKey` property
-
-## Running the starter
-
-To run the Azure Functions application just hit `F5`.
-
-To build and run the Azure Functions application from a terminal use the following commands:
-
-```powershell
-cd azure-function
-dotnet build
-cd bin/Debug/net6.0
-func host start  
 ```

@@ -1,0 +1,43 @@
+{
+  "version": "1.0",
+  "skillName": "BankQueriesSkill",
+  "functionName": "Summarize",
+  "description": "Summarize the given information.",
+  "filePath": "src\\bank-information-azfunction\\Prompts\\BankQueriesSkill\\Summarize\\skprompt.txt",
+  "results": [
+    {
+      "completionConfig": {
+        "label": "gpt4",
+        "aiService": "AzureOpenAI",
+        "deploymentOrModelId": "gpt4",
+        "endpoint": "https://razopenai-ce.openai.azure.com/",
+        "useCustomEndpoint": false,
+        "endpointType": "chat-completion",
+        "modelId": "gpt-4",
+        "chatSystemMessage": "You are an AI assistant that helps people find information."
+      },
+      "requestSettings": {
+        "temperature": 0,
+        "topP": 0,
+        "presencePenalty": 0,
+        "frequencyPenalty": 0,
+        "maxTokens": 300,
+        "stopSequences": []
+      },
+      "variables": [
+        {
+          "key": "input",
+          "value": "We went to jewel today because nintendo opened a pop-up shop from today up to 1 Jan. Initially I thought it was just today so I agreed to cancel my schedule and rush to Jewel, only later did I find out that they are open until Jan 1. But it's ok, we had fun and bought lots of stuff. I was also able to spend time with my family and have dinner in the mall after shopping."
+        }
+      ],
+      "output": {
+        "prompt": "INSTRUCTIONS:\nSummarize the given information below.\n\nINFORMATION:\nWe went to jewel today because nintendo opened a pop-up shop from today up to 1 Jan. Initially I thought it was just today so I agreed to cancel my schedule and rush to Jewel, only later did I find out that they are open until Jan 1. But it's ok, we had fun and bought lots of stuff. I was also able to spend time with my family and have dinner in the mall after shopping.\n\nSUMMARY:",
+        "durationInMilliseconds": 4691.7931,
+        "inputTokens": 105,
+        "outputTokens": 62,
+        "result": "The individual visited a Nintendo pop-up shop at Jewel today, initially under the impression that it was only open for the day. They later discovered that the shop will remain open until January 1. Despite the misunderstanding, they enjoyed their time, made several purchases, and had dinner at the mall with their family.",
+        "chatCompletionResult": "The individual visited a Nintendo pop-up shop at Jewel today, initially under the impression that it was only open for the day. They later discovered that the shop will remain open until January 1. Despite the misunderstanding, they enjoyed their time, made several purchases, and had dinner at the mall with their family."
+      }
+    }
+  ]
+}

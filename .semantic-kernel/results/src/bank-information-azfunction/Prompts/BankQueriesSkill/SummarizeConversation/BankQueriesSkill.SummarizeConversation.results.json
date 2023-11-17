@@ -1,0 +1,77 @@
+{
+  "version": "1.0",
+  "skillName": "BankQueriesSkill",
+  "functionName": "SummarizeConversation",
+  "description": "Summarize the given conversation so far.",
+  "filePath": "src\\bank-information-azfunction\\Prompts\\BankQueriesSkill\\SummarizeConversation\\skprompt.txt",
+  "results": [
+    {
+      "completionConfig": {
+        "label": "gpt4",
+        "aiService": "AzureOpenAI",
+        "deploymentOrModelId": "gpt4",
+        "endpoint": "https://razopenai-ce.openai.azure.com/",
+        "useCustomEndpoint": false,
+        "endpointType": "chat-completion",
+        "modelId": "gpt-4",
+        "chatSystemMessage": "You are an AI assistant that helps people find information."
+      },
+      "requestSettings": {
+        "temperature": 0,
+        "topP": 0,
+        "presencePenalty": 0,
+        "frequencyPenalty": 0,
+        "maxTokens": 300,
+        "stopSequences": []
+      },
+      "variables": [
+        {
+          "key": "input",
+          "value": "AI: how can I help you? Human: I'd like to know about time-deposits. AI: Certainly, we have 5 and 10-year time deposit options. The 5-year deposit gives a guaranteed 5% interest YoY, while the 10-year deposit gives a guaranteed 10% interest YoY. Human: That's great, is there any penalty for withdrawing earlier than 5 years?"
+        }
+      ],
+      "output": {
+        "prompt": "INSTRUCTIONS:\nBelow is the chat conversation so far. The last statement from the conversation is possibly a follow up question.\nSummarize the conversation below.\nIf the last statement is a follow up question, summarize the conversation and end with the follow up question.\nIf the last statement is not a follow up question, summarize the conversation only.\nDo not make up a follow up question.\n\nCONVERSATION:\nAI: how can I help you? Human: I'd like to know about time-deposits. AI: Certainly, we have 5 and 10-year time deposit options. The 5-year deposit gives a guaranteed 5% interest YoY, while the 10-year deposit gives a guaranteed 10% interest YoY. Human: That's great, is there any penalty for withdrawing earlier than 5 years?\n\nSUMMARY:",
+        "durationInMilliseconds": 4111.3154,
+        "inputTokens": 170,
+        "outputTokens": 50,
+        "result": "The user inquired about time-deposits. The AI provided information about 5 and 10-year time deposit options, detailing the guaranteed interest rates for each. The user then asked if there is any penalty for withdrawing earlier than 5 years.",
+        "chatCompletionResult": "The user inquired about time-deposits. The AI provided information about 5 and 10-year time deposit options, detailing the guaranteed interest rates for each. The user then asked if there is any penalty for withdrawing earlier than 5 years."
+      }
+    },
+    {
+      "completionConfig": {
+        "label": "gpt4",
+        "aiService": "AzureOpenAI",
+        "deploymentOrModelId": "gpt4",
+        "endpoint": "https://razopenai-ce.openai.azure.com/",
+        "useCustomEndpoint": false,
+        "endpointType": "chat-completion",
+        "modelId": "gpt-4",
+        "chatSystemMessage": "You are an AI assistant that helps people find information."
+      },
+      "requestSettings": {
+        "temperature": 0,
+        "topP": 0,
+        "presencePenalty": 0,
+        "frequencyPenalty": 0,
+        "maxTokens": 300,
+        "stopSequences": []
+      },
+      "variables": [
+        {
+          "key": "input",
+          "value": "AI: Hi how can I help you?"
+        }
+      ],
+      "output": {
+        "prompt": "INSTRUCTIONS:\nBelow is the chat conversation so far. The last statement from the conversation is possibly a follow up question.\nSummarize the conversation below.\nIf the last statement is a follow up question, summarize the conversation and end with the follow up question.\nIf the last statement is not a follow up question, summarize the conversation only.\nDo not make up a follow up question.\n\nCONVERSATION:\nAI: Hi how can I help you?\n\nSUMMARY:",
+        "durationInMilliseconds": 2097.7117,
+        "inputTokens": 93,
+        "outputTokens": 12,
+        "result": "The AI assistant has greeted the user and offered its help.",
+        "chatCompletionResult": "The AI assistant has greeted the user and offered its help."
+      }
+    }
+  ]
+}

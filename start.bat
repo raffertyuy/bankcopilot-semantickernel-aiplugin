@@ -1,2 +1,4 @@
-cd src/azure-function
-func start --csharp --verbose
+@ECHO OFF
+START start-banktransactions.bat
+START start-bankinformation.bat
+EXIT
