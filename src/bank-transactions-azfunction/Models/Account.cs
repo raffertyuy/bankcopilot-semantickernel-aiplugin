@@ -5,21 +5,10 @@ namespace Models
 {
     public class Account
     {
-        private string _accountNumber;
-        private string _accountName;
         private decimal _accountBalance;
 
-        public string AccountNumber 
-        { 
-            get => _accountNumber; 
-            set => _accountNumber = !string.IsNullOrEmpty(value) ? value : throw new ArgumentException("Account number cannot be null or empty."); 
-        }
-
-        public string AccountName 
-        { 
-            get => _accountName; 
-            set => _accountName = !string.IsNullOrEmpty(value) ? value : throw new ArgumentException("Account name cannot be null or empty."); 
-        }
+        public string AccountNumber { get; private set; }
+        public string AccountName { get; private set; }
 
         public decimal AccountBalance
         {
@@ -29,8 +18,8 @@ namespace Models
 
         public Account(string accountNumber, string accountName, decimal accountBalance)
         {
-            _accountNumber = accountNumber ?? throw new ArgumentNullException(nameof(accountNumber));
-            _accountName = accountName ?? throw new ArgumentNullException(nameof(accountName));
+            AccountNumber = accountNumber ?? throw new ArgumentNullException(nameof(accountNumber));
+            AccountName = accountName ?? throw new ArgumentNullException(nameof(accountName));
             AccountBalance = accountBalance;
         }
     }

@@ -11,7 +11,7 @@ This repo uses [Semantic Kernel](https://github.com/microsoft/semantic-kernel) w
 Uses [native functions](https://learn.microsoft.com/en-us/semantic-kernel/ai-orchestration/plugins/native-functions/using-the-skfunction-decorator?tabs=Csharp) to perform banking transactions.
 - [x] Balance Inquiry
 - [x] Transfer funds between accounts
-- [ ] Update account billing address
+- [x] Update account billing address
 
 To run: [start-banktransactions.bat](./start-banktransactions.bat)
 Local URL: `http://localhost:7071` or `http://localhost:7071/.well-known/ai-plugin.json`
@@ -79,6 +79,7 @@ These are the learnings from my experimentation so far...
   - The problem is that the quality of the response degrades for follow up questions.
   - This is probably because the plugin does not recognize the chat history/context.
   - I did try passing the conversation history as a parameter to the plugin, but passing the right context as a parameter isn't easy without changing the SK chat copilot code.
+  - [ ] Need to figure out how to use RAG and still send product interests to CRM, maybe another plugin?
   
 2. Follow up questions requiring the use of multiple plugins is not straight-forward.
   - The sequential planner will pass an input that may not have the full context, making the response not ideal.

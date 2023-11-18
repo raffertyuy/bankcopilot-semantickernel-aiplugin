@@ -39,9 +39,15 @@ var host = new HostBuilder()
             .AddScoped<IAIPluginRunner, AIPluginRunner>();
         
         // Sample bank data (no actual database for now)
+        
         var bankdata = BankDataContext.Instance;
-        bankdata.Accounts.Add(new Account("123456789", "Savings", 1000000));
-        bankdata.Accounts.Add(new Account("987654321", "Checking", 10000));
+
+        bankdata.CurrentCustomer = new Customer("123456789", "Julian Chan");
+        bankdata.CurrentCustomer.BillingAddress = "123 Main Street, Anytown, USA";
+        bankdata.CurrentCustomer.Accounts.Add(new Account("123456789", "Savings", 1000000));
+        bankdata.CurrentCustomer.Accounts.Add(new Account("987654321", "Current", 10000));
+
+        bankdata.Accounts.ToList().AddRange(bankdata.CurrentCustomer.Accounts);
     })
     .Build();
 

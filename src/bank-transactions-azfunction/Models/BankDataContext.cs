@@ -7,6 +7,7 @@ namespace Models
         private static BankDataContext? instance;
         private static readonly object padlock = new();
 
+        public Customer? CurrentCustomer { get; set; }
         public ICollection<Account> Accounts { get; } = new List<Account>();
         public ICollection<TransactionRecord> TransactionHistory { get; } = new List<TransactionRecord>();
 
