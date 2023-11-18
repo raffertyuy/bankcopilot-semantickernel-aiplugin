@@ -14,9 +14,6 @@ Raz Bank offers a wide range of personal bank accounts:
 - Joint Account: The bank account that allows you to share the same account with another person. It features zero monthly fees and zero minimum balance.
 - Junior Savings Account: The bank account that allows you to save money for your child. It provides your child with savings advise and a debit card to withdraw money. The parents are notified when the child deposits or withdraws money.
 
-## CHAT HISTORY:
-{{$chatHistory}}
-
 ## QUERY:
 {{$query}}
 

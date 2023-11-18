@@ -12,11 +12,6 @@
   "input": {
     "parameters": [
       {
-        "name": "chatHistory",
-        "description": "The summary of the chat conversation so far.",
-        "defaultValue": ""
-      },
-      {
         "name": "query",
         "description": "The question of the user.",
         "defaultValue": ""

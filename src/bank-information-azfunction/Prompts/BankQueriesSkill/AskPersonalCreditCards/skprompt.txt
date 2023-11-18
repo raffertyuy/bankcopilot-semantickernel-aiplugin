@@ -14,9 +14,6 @@ Raz Bank offers a wide selection of personal credit cards:
 - Raz Bank Platinum Bank Card: Up to 5% cash back and 2 points per dollar on all purchases. No annual fee. Minimum income of $200,000 per annum.
 
 
-## CHAT HISTORY:
-{{$chatHistory}}
-
 ## QUERY:
 {{$query}}
 
