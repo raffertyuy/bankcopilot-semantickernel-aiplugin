@@ -1,2 +1,4 @@
 cd src/bank-transactions-azfunction
-func start --csharp --pause-on-error --verbose 
+
+REM func start --csharp  --pause-on-error --verbose 
+func start --csharp

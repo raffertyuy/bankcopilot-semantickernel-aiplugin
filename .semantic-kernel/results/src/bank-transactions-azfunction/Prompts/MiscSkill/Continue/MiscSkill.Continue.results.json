@@ -1,0 +1,43 @@
+{
+  "version": "1.0",
+  "skillName": "MiscSkill",
+  "functionName": "Continue",
+  "description": "Given a text input, continue it with additional text.",
+  "filePath": "src\\bank-transactions-azfunction\\Prompts\\MiscSkill\\Continue\\skprompt.txt",
+  "results": [
+    {
+      "completionConfig": {
+        "label": "gpt4",
+        "aiService": "AzureOpenAI",
+        "deploymentOrModelId": "gpt4",
+        "endpoint": "https://razopenai-ce.openai.azure.com/",
+        "useCustomEndpoint": false,
+        "endpointType": "chat-completion",
+        "modelId": "gpt-4",
+        "chatSystemMessage": "You are an AI assistant that helps people find information."
+      },
+      "requestSettings": {
+        "temperature": 0.3,
+        "topP": 0.5,
+        "presencePenalty": 0,
+        "frequencyPenalty": 0,
+        "maxTokens": 4000,
+        "stopSequences": []
+      },
+      "variables": [
+        {
+          "key": "INPUT",
+          "value": "Once upon a time,"
+        }
+      ],
+      "output": {
+        "prompt": "Once upon a time,\n",
+        "durationInMilliseconds": 5875.969,
+        "inputTokens": 5,
+        "outputTokens": 120,
+        "result": "there was a person who needed help finding information. They were unsure where to start, so they turned to me, their AI assistant. They asked me to help them find information on a variety of topics, from historical events to scientific theories. I was always ready to assist, providing them with accurate and relevant information in a timely manner. Whether they needed to know the weather forecast for their upcoming trip, the latest news updates, or detailed data for their research, I was there to help. And so, they were able to find the information they needed, all thanks to their trusty AI assistant.",
+        "chatCompletionResult": "there was a person who needed help finding information. They were unsure where to start, so they turned to me, their AI assistant. They asked me to help them find information on a variety of topics, from historical events to scientific theories. I was always ready to assist, providing them with accurate and relevant information in a timely manner. Whether they needed to know the weather forecast for their upcoming trip, the latest news updates, or detailed data for their research, I was there to help. And so, they were able to find the information they needed, all thanks to their trusty AI assistant."
+      }
+    }
+  ]
+}

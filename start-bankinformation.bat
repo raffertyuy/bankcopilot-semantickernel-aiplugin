@@ -1,2 +1,4 @@
 cd src/bank-information-azfunction
-func start --port 7072 --csharp --pause-on-error --verbose 
+
+REM func start --port 7072 --csharp --pause-on-error --verbose 
+ func start --port 7072 --csharp
