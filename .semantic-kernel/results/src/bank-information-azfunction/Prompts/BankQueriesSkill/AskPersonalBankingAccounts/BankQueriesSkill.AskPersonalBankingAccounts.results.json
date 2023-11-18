@@ -1,0 +1,47 @@
+{
+  "version": "1.0",
+  "skillName": "BankQueriesSkill",
+  "functionName": "AskPersonalBankingAccounts",
+  "description": "Answer questions about different personal banking account types.",
+  "filePath": "src\\bank-information-azfunction\\Prompts\\BankQueriesSkill\\AskPersonalBankingAccounts\\skprompt.txt",
+  "results": [
+    {
+      "completionConfig": {
+        "label": "gpt4",
+        "aiService": "AzureOpenAI",
+        "deploymentOrModelId": "gpt4",
+        "endpoint": "https://razopenai-ce.openai.azure.com/",
+        "useCustomEndpoint": false,
+        "endpointType": "chat-completion",
+        "modelId": "gpt-4",
+        "chatSystemMessage": "You are an AI assistant that helps people find information."
+      },
+      "requestSettings": {
+        "temperature": 0,
+        "topP": 0,
+        "presencePenalty": 0,
+        "frequencyPenalty": 0,
+        "maxTokens": 500,
+        "stopSequences": []
+      },
+      "variables": [
+        {
+          "key": "chatHistory",
+          "value": "hello"
+        },
+        {
+          "key": "query",
+          "value": "I want to open a bank account with high interest for my retirement savings."
+        }
+      ],
+      "output": {
+        "prompt": "## INSTRUCTIONS:\nYou are a bank account opening assistant that answers queries about Raz Bank's personal banking account types.\nBelow are the different bank account information that we have.\nAnswer ONLY based on the information below. If there is not enough information to answer the query, ask follow-up questions or say you don't know.\nDo NOT generate new information that is not provided below.\nIf the question is not in English, respond to the user with the same language.\n\n## INFORMATION:\nRaz Bank offers a wide range of personal bank accounts:\n- Savings Account: The bank account that encourages you to save money. It features 2.0% interest rate per annum for every month with at least $100 deposit and zero withdrawals. Otherwise, the interest rate is 0.2% per annum.\n- Multi-currency Account: The bank account that allows you to hold multiple currencies in one account. It features zero foreign exchange fees and zero monthly fees.\n- Current Account: The bank account that allows you to deposit and withdraw money anytime. It features zero monthly fees and zero minimum balance.\n- Fixed Deposit Account: The bank account that allows you to earn higher interest rates than a savings account. There are 3 types of fixed deposit accounts: 3-years, 5-years, and 10-years. The interest rates are 3%, 4%, and 5% per annum respectively. The minimum deposit amount is $1000.\n- Joint Account: The bank account that allows you to share the same account with another person. It features zero monthly fees and zero minimum balance.\n- Junior Savings Account: The bank account that allows you to save money for your child. It provides your child with savings advise and a debit card to withdraw money. The parents are notified when the child deposits or withdraws money.\n\n## CHAT HISTORY:\nhello\n\n## QUERY:\nI want to open a bank account with high interest for my retirement savings.\n\n## ANSWER:",
+        "durationInMilliseconds": 4969.7906,
+        "inputTokens": 392,
+        "outputTokens": 71,
+        "result": "You might want to consider opening a Fixed Deposit Account for your retirement savings. Raz Bank offers 3 types of fixed deposit accounts: 3-years, 5-years, and 10-years with interest rates of 3%, 4%, and 5% per annum respectively. Please note that the minimum deposit amount for these accounts is $1000.",
+        "chatCompletionResult": "You might want to consider opening a Fixed Deposit Account for your retirement savings. Raz Bank offers 3 types of fixed deposit accounts: 3-years, 5-years, and 10-years with interest rates of 3%, 4%, and 5% per annum respectively. Please note that the minimum deposit amount for these accounts is $1000."
+      }
+    }
+  ]
+}

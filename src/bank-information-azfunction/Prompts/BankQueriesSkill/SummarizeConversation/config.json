@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "type": "completion",
-  "description": "Summarize the given conversation so far.",
+  "description": "Used to summarize a chat conversation.",
   "completion": {
     "max_tokens": 300,
     "temperature": 0,
@@ -13,7 +13,7 @@
     "parameters": [
       {
         "name": "input",
-        "description": "The conversation to summarize.",
+        "description": "The chat conversation.",
         "defaultValue": ""
       }
     ]
