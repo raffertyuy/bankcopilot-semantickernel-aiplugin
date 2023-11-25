@@ -55,10 +55,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="logo.png" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

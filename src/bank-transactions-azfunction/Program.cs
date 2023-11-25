@@ -42,12 +42,16 @@ var host = new HostBuilder()
         
         var bankdata = BankDataContext.Instance;
 
+        var account1 = new Account("123456789", "Savings", 1000000);
+        var account2 = new Account("987654321", "Current", 10000);
+
         bankdata.CurrentCustomer = new Customer("123456789", "Julian Chan");
         bankdata.CurrentCustomer.BillingAddress = "123 Main Street, Anytown, USA";
-        bankdata.CurrentCustomer.Accounts.Add(new Account("123456789", "Savings", 1000000));
-        bankdata.CurrentCustomer.Accounts.Add(new Account("987654321", "Current", 10000));
+        bankdata.CurrentCustomer.Accounts.Add(account1);
+        bankdata.CurrentCustomer.Accounts.Add(account2);
 
-        bankdata.Accounts.ToList().AddRange(bankdata.CurrentCustomer.Accounts);
+        bankdata.Accounts.Add(account1);
+        bankdata.Accounts.Add(account2);
     })
     .Build();
 
