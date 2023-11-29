@@ -51,7 +51,7 @@ public class AddCrmNote
                 return response;
             }
 
-            var success = await LocalRun(note);
+            var success = await LocalRun(note).ConfigureAwait(false);
             if (success)
             {
                 HttpResponseData response = req.CreateResponse(HttpStatusCode.OK);
@@ -89,7 +89,7 @@ public class AddCrmNote
         var data = new StringContent(json, Encoding.UTF8, "application/json");
         using (var httpClient = new HttpClient())
         {
-            var response = await httpClient.PostAsync(appSettings.Crm.SendNoteApiUrl, data);
+            var response = await httpClient.PostAsync(appSettings.Crm.SendNoteApiUrl, data).ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode)
                 return true;

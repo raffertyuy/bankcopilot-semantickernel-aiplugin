@@ -30,25 +30,25 @@ public class GetCustomerInformation
             throw new ArgumentNullException(nameof(req));
         }
 
-          var response = LocalRun();
-          HttpResponseData okResponse = req.CreateResponse(HttpStatusCode.OK);
-          okResponse.Headers.Add("Content-Type", "application/json");
-          okResponse.WriteString(response);
+        var response = LocalRun();
+        HttpResponseData okResponse = req.CreateResponse(HttpStatusCode.OK);
+        okResponse.Headers.Add("Content-Type", "application/json");
+        okResponse.WriteString(response);
 
-          _logger.LogInformation($"GetCustomerInformation function processed a request.");
+        _logger.LogInformation($"GetCustomerInformation function processed a request.");
 
-          return okResponse;
+        return okResponse;
     }
 
     public static string LocalRun()
     {
-      var customer = BankDataContext.Instance.CurrentCustomer;
-      var customerWithoutAccounts = new
-      {
-        customer.IdNumber,
-        customer.FullName,
-        customer.BillingAddress
-      };
-      return JsonConvert.SerializeObject(customerWithoutAccounts);
+        var customer = BankDataContext.Instance.CurrentCustomer;
+        var customerWithoutAccounts = new
+        {
+            customer.IdNumber,
+            customer.FullName,
+            customer.BillingAddress
+        };
+        return JsonConvert.SerializeObject(customerWithoutAccounts);
     }
 }

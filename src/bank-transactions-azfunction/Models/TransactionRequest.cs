@@ -5,24 +5,24 @@ public class TransactionRequest
     private string _sourceAccountNumber;
     private string _destinationAccountNumber;
 
-    public string SourceAccountNumber 
-    { 
-        get => _sourceAccountNumber; 
-        set => _sourceAccountNumber = !string.IsNullOrEmpty(value) ? value : throw new ArgumentException("Source account number cannot be null or empty."); 
+    public string SourceAccountNumber
+    {
+        get => _sourceAccountNumber;
+        set => _sourceAccountNumber = !string.IsNullOrEmpty(value) ? value : throw new ArgumentException("Source account number cannot be null or empty.");
     }
 
-    public string DestinationAccountNumber 
-    { 
-        get => _destinationAccountNumber; 
-        set => _destinationAccountNumber = !string.IsNullOrEmpty(value) ? value : throw new ArgumentException("Destination account number cannot be null or empty."); 
+    public string DestinationAccountNumber
+    {
+        get => _destinationAccountNumber;
+        set => _destinationAccountNumber = !string.IsNullOrEmpty(value) ? value : throw new ArgumentException("Destination account number cannot be null or empty.");
     }
 
     private decimal _amount;
 
-    public decimal Amount 
-    { 
-        get => _amount; 
-        set => _amount = value > 0 ? value : throw new ArgumentException("Amount must be greater than zero."); 
+    public decimal Amount
+    {
+        get => _amount;
+        set => _amount = value > 0 ? value : throw new ArgumentException("Amount must be greater than zero.");
     }
 
     public string? Remarks { get; set; }

@@ -37,9 +37,9 @@ var host = new HostBuilder()
                 return kernel;
             })
             .AddScoped<IAIPluginRunner, AIPluginRunner>();
-        
+
         // Sample bank data (no actual database for now)
-        
+
         var bankdata = BankDataContext.Instance;
 
         var account1 = new Account("123456789", "Savings", 1000000);

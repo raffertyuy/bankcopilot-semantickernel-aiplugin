@@ -40,25 +40,25 @@ public class AIPluginRunner : IAIPluginRunner
             out ISKFunction? function))
         {
             HttpResponseData errorResponse = req.CreateResponse(HttpStatusCode.NotFound);
-            await errorResponse.WriteStringAsync($"Function {operationId} not found");
+            await errorResponse.WriteStringAsync($"Function {operationId} not found").ConfigureAwait(false);
             return errorResponse;
         }
 
-        var result = await this._kernel.RunAsync(contextVariables, function);
+        var result = await _kernel.RunAsync(contextVariables, function).ConfigureAwait(false);
         if (result.ErrorOccurred)
         {
             HttpResponseData errorResponse = req.CreateResponse(HttpStatusCode.BadRequest);
             string? message = result?.LastException?.Message;
             if (message != null)
             {
-                await errorResponse.WriteStringAsync(message);
+                await errorResponse.WriteStringAsync(message).ConfigureAwait(false);
             }
             return errorResponse;
         }
 
         var response = req.CreateResponse(HttpStatusCode.OK);
         response.Headers.Add("Content-Type", "text/plain;charset=utf-8");
-        await response.WriteStringAsync(result.Result);
+        await response.WriteStringAsync(result.Result).ConfigureAwait(false);
         return response;
     }
 

@@ -9,16 +9,16 @@ namespace Models
         private string _accountName;
         private decimal _accountBalance;
 
-        public string AccountNumber 
-        { 
-            get => _accountNumber; 
-            set => _accountNumber = !string.IsNullOrEmpty(value) ? value : throw new ArgumentException("Account number cannot be null or empty."); 
+        public string AccountNumber
+        {
+            get => _accountNumber;
+            set => _accountNumber = !string.IsNullOrEmpty(value) ? value : throw new ArgumentException("Account number cannot be null or empty.");
         }
 
-        public string AccountName 
-        { 
-            get => _accountName; 
-            set => _accountName = !string.IsNullOrEmpty(value) ? value : throw new ArgumentException("Account name cannot be null or empty."); 
+        public string AccountName
+        {
+            get => _accountName;
+            set => _accountName = !string.IsNullOrEmpty(value) ? value : throw new ArgumentException("Account name cannot be null or empty.");
         }
 
         public decimal AccountBalance

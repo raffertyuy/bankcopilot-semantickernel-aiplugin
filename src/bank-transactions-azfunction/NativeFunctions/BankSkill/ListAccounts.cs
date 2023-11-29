@@ -40,6 +40,6 @@ public class ListAccounts
 
     public static ICollection<Account> LocalRun()
     {
-      return BankDataContext.Instance.Accounts;
+        return BankDataContext.Instance.Accounts;
     }
 }
