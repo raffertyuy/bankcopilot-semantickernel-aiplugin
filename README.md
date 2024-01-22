@@ -6,6 +6,37 @@ This repo uses [Semantic Kernel](https://github.com/microsoft/semantic-kernel) w
 - [Semantic Kernel Sample ChatGPT Math Plugin](https://github.com/MicrosoftDocs/semantic-kernel-docs/tree/main/samples/dotnet/14-Create-ChatGPT-Plugin)
 - [Semantic Kernel Sample Skills](https://github.com/microsoft/semantic-kernel/tree/main/samples/skills)
 
+## Demo Script
+
+### Setup
+1. Run all 3 plugins with `start.bat`
+2. Run the Semantic Kernel Chat Copilot Locally with `~\scripts\start.ps1`
+3. Go to http://localhost:3000/, and login using the proper Entra ID credentials (if applicable)
+4. Go to Plugins, and add all 3 plugins as Custom Plugins: http://localhost:7071, http://localhost:7072, and http://localhost:7073
+5. Enable all 3 added plugins
+6. Go to Persona, and add a persona metaprompt (see [sample](#using-all-three-plugins-bank-transactions-bank-information-and-bank-crm) below). Don't forget to Save.
+7. Start chatting.
+
+### Chat Messages
+1. List available accounts
+```
+List all my accounts.
+```
+2. Transfer funds
+```
+Transfer $1000 from my savings account to my current account.
+```
+- If this throws an error, check the input JSON of the Transfer API. It should be something like this `{ "sourceAccountNumber": "$SAVINGS_ACCOUNT_NUMBER", "destinationAccountNumber": "$CURRENT_ACCOUNT_NUMBER", "amount": 1000, "remarks": "Transfer initiated by user" }`
+3. Update billing address
+```
+Update my address, I now live in 123 Margrave Road, USA
+```
+4. Send interests to CRM.
+```
+Do you have any junior savings account?
+```
+- Then go to the CRM to see a note added.
+
 ## Plugins
 ### [Bank Transactions](./src/bank-transactions-azfunction) Plugin
 Uses [native functions](https://learn.microsoft.com/en-us/semantic-kernel/ai-orchestration/plugins/native-functions/using-the-skfunction-decorator?tabs=Csharp) to perform banking transactions.
@@ -123,9 +154,7 @@ In addition to answering queries, you also help customers execute tasks based on
 ## Tools Available:
 - Bank Information Plugin: Use this tool for answering queries related to banking products such as account types and credit cards.
 - Bank Transactions Plugin: Use this tool to execute banking transactions such as balance inquiry, transfer funds between accounts, update account billing address, etc.
-- Bank CRM Plugin: Use this tool to send customer interests to a CRM system.
-
-When a customer is interested about a banking product or service, send a note to the CRM system using the Bank CRM Plugin.
+- Bank CRM Plugin: Use this tool to send customer banking product inquiries to a CRM system. Do not use this tool if the customer is not inquiring about a banking product.
 ```
 
 ## Learning Notes
